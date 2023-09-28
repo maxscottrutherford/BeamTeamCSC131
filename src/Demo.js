@@ -108,7 +108,7 @@ export const Demo = () => {
                         type="text" 
                         name ="testMethod"
                         placeholder="Test Method"
-                        value={testName}
+                        value={testMethod}
                         onChange={handleTestMethodChange}
                         />
                     </div>
