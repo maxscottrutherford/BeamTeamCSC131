@@ -24,7 +24,11 @@ export const Demo = () => {
     const addDevice = async () => {
         const addDeviceResponse = await client.entities.test.add({
             Device: device,
-            TestName: testName
+            TestID: testID,
+            OrgAssignment: orgAssignment,
+            TestName: testName,
+            TestMethod: testMethod,
+            Notes: notes
         })
         console.log(addDeviceResponse)
     }
