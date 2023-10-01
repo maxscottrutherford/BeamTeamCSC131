@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Demo } from './Demo';
 import Navbar from "./Navbar";
@@ -8,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Demo></Demo>
-        <Navbar />
+        <Navbar></Navbar>
       </header>
     </div>
   );
