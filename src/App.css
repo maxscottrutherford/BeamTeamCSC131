@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.inputs{
+  -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+     border-radius: 20px;
+     border: 1px solid #2d9fd9;
+     color: black;
+     width: 250px;
+     height: 30px;
+     padding-left: 10px;
+     margin: 5px;
+    }
+
+.submit{
+  -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+     border-radius: 20px;
+     border: 1px solid #2d9fd9;
+     color: black;
+     width: 150px;
+     height: 30px;
+     padding-left: 10px;
+}
