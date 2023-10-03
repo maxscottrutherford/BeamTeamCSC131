@@ -68,7 +68,7 @@ export const Demo = () => {
             <div>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <input 
+                        <input class = "inputs" 
                         type="text" 
                         name ="Device"
                         placeholder="Device Name"
@@ -78,7 +78,7 @@ export const Demo = () => {
                     </div>
 
                     <div>
-                        <input 
+                        <input class = "inputs"
                         type="text" 
                         name ="testID"
                         placeholder="Test ID (Integer)"
@@ -88,7 +88,7 @@ export const Demo = () => {
                     </div>
 
                     <div>
-                        <input 
+                        <input class = "inputs"
                         type="text" 
                         name ="orgAssignment"
                         placeholder="Organization"
@@ -98,7 +98,7 @@ export const Demo = () => {
                     </div>
 
                     <div>
-                        <input 
+                        <input class = "inputs"
                         type="text" 
                         name ="testName"
                         placeholder="Test Name"
@@ -108,7 +108,7 @@ export const Demo = () => {
                     </div>
 
                     <div>
-                        <input 
+                        <input class = "inputs"
                         type="text" 
                         name ="testMethod"
                         placeholder="Test Method"
@@ -118,7 +118,7 @@ export const Demo = () => {
                     </div>
 
                     <div>
-                        <input 
+                        <input class = "inputs"
                         type="text" 
                         name ="notes"
                         placeholder="Notes"
@@ -127,7 +127,7 @@ export const Demo = () => {
                         />
                     </div>
 
-                    <input type="submit"/>
+                    <input class="submit" type="submit"/>
                 </form>
                 <div>
                     {testList?.map((item, index) => (
