@@ -14,6 +14,7 @@ import {
   useNavigate
 } from 'react-router-dom';
 
+/* Home Page */
 function Home() {
   return (
     <div className="home-page">
@@ -23,6 +24,7 @@ function Home() {
   );
 }
 
+/* About Page */
 function About() {
   return (
     <div className="about-page">
@@ -59,6 +61,7 @@ function NoMatch() {
   )
 }
 
+/* Main page for routing to different pages */
 function AppLayout() {
   return (
     <>
@@ -87,6 +90,7 @@ function AppLayout() {
   );
 }
 
+/* Main App (Landing Page for everything) */
 function App() {
   return (
     <div className="App">
