@@ -127,7 +127,7 @@ export const Demo = () => {
                         />
                     </div>
 
-                    <input class="submit" type="submit"/>
+                    <input class="submit" type="submit" style={{ cursor:'pointer' }}/>
                 </form>
                 <div>
                     {testList?.map((item, index) => (
