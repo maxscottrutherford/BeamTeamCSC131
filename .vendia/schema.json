@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vendia Share JSON schema",
+  "type": "object",
+  "x-vendia-indexes": {},
+  "x-vendia-acls": {
+    "Test-acls": {
+      "type": "Test"
+    }
+  },
+  "properties": {
+    "Test": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Device": {
+            "title": "Device",
+            "type": "string"
+          },
+          "TestID": {
+            "title": "TestID",
+            "type": "integer"
+          },
+          "OrgAssignment": {
+            "title": "OrgAssignment",
+            "type": "string"
+          },
+          "TestName": {
+            "title": "TestName",
+            "type": "string"
+          },
+          "TestMethod": {
+            "title": "TestMethod",
+            "type": "string"
+          },
+          "Notes": {
+            "title": "Notes",
+            "type": "string"
+          },
+          "Completed": {
+            "title": "Completed",
+            "description": "",
+            "type": "boolean"
+          },
+          "UpdatedBy": {
+            "title": "UpdatedBy",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "x-vendia-unique": []
+      },
+      "title": "Test"
+    }
+  }
+}
