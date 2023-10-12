@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  text-decoration: none;
 }
 
 .App-logo {
@@ -14,14 +15,14 @@
 }
 
 .App-header {
-  background-color: #9b72cf;
+  background-color: #f4effa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #0a0e37;
 }
 
 .App-link {
@@ -41,7 +42,7 @@
   -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
      border-radius: 20px;
-     border: 1px solid #2d9fd9;
+     border: 1px solid #9b72cf;
      color: black;
      width: 250px;
      height: 30px;
@@ -53,7 +54,7 @@
   -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
      border-radius: 20px;
-     border: 1px solid #2d9fd9;
+     border: 1px solid #9b72cf;
      color: white;
      width: 150px;
      height: 30px;
@@ -62,7 +63,7 @@
 }
 
 .submit:hover{
-  
+  background-color: #2f184b;
 }
 
 .inputBackground{
@@ -74,4 +75,30 @@
 
 .title{
   padding-bottom: 15px;
+}
+
+.navlistitem
+{
+  color: #f4effa;
+  margin: 20px;
+}
+.navlistitem:hover
+{
+  color: #532b88;
+  text-decoration: underline;
+}
+
+.navbar
+{
+  font-size: 30px;
+  height: 60px;
+  background-color: #2f184b; 
+  position: fixed; 
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  padding: 10px; 
+  z-index: 100; 
+  margin-top: 20px;
+  text-align: center;
 }
