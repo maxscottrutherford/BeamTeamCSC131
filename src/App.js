@@ -1,8 +1,12 @@
 import './App.css';
 import { Demo } from './Demo';
 import DevicePage from './DeviceListPage';
-import Navbar from "./Navbar";
+import Signup from './Signup';
+import Login from './Login';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from './firebase.js';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -63,6 +67,32 @@ function NoMatch() {
 
 /* Main page for routing to different pages */
 function AppLayout() {
+  const navigate = useNavigate();
+  //function to handle logout
+  const handleLogout = () => {
+    signOut(auth).then(() =>{
+      //sign-out successful
+      navigate('/login');
+      console.log("Signed out successfully.")
+    }).catch((error) => {
+      //error occured
+    });
+  }
+
+  //getting user info
+  useEffect(() =>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        //user is signed in
+        const uid=user.uid;
+        console.log("uid", uid)
+      } else {
+        //User is signed out
+        console.log("user is logged out")
+      }
+    });
+  }, [])
+  
   return (
     <>
       <nav class="navbar">
@@ -78,12 +108,17 @@ function AppLayout() {
         <Link to='/demo' class="navlistitem">
           Add Device
         </Link>
+        <button onClick={handleLogout}>
+          Logout
+        </button>
       </nav>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/devicelist' element={<DeviceList />} />
         <Route path='/demo' element={<Demo />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>
     </>
