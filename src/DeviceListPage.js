@@ -36,7 +36,7 @@ function App() {
     return (
         <div>
             <h1 style={{ textAlign: 'center' }}>Table Example</h1>
-            <input
+            <input class="inputs"
                 type="text"
                 placeholder="Search by Name"
                 value={searchTerm}
