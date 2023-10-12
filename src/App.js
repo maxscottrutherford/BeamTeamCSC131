@@ -65,17 +65,17 @@ function NoMatch() {
 function AppLayout() {
   return (
     <>
-      <nav style={{ margin: 10 }}>
-        <Link to="/" style={{ padding: 5 }}>
+      <nav class="navbar">
+        <Link to="/"  class="navlistitem">
           Home
         </Link>
-        <Link to="/about" style={{ padding: 5 }}>
+        <Link to="/about" class="navlistitem">
           About
         </Link>
-        <Link to='/devicelist' style={{ padding: 5 }}>
+        <Link to='/devicelist' class="navlistitem">
           Device List
         </Link>
-        <Link to='/demo' style={{ padding: 5 }}>
+        <Link to='/demo' class="navlistitem">
           Add Device
         </Link>
       </nav>
