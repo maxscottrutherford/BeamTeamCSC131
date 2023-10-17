@@ -102,3 +102,19 @@
   margin-top: 20px;
   text-align: center;
 }
+
+#logout-button {
+  font-size: 24px;
+  border: none;
+  border-radius: 6px;
+  padding: 5px;
+  margin: 12px;
+  background-color: #f4effa;
+  color: #532b88;
+}
+
+#logout-button:hover {
+  cursor: pointer;
+  color: #f4effa;
+  background-color: #532b88;
+}

@@ -112,7 +112,7 @@ function AppLayout() {
         <Link to='/login' class="navlistitem">
           Login
         </Link>
-        <button onClick={handleLogout} >
+        <button onClick={handleLogout} id="logout-button">
           Logout
         </button>
       </nav>
