@@ -15,7 +15,8 @@ import {
   Outlet,
   Navigate,
   useParams,
-  useNavigate
+  useNavigate,
+  Redirect
 } from 'react-router-dom';
 
 /* Home Page */
@@ -108,10 +109,14 @@ function AppLayout() {
         <Link to='/demo' class="navlistitem">
           Add Device
         </Link>
-        <button onClick={handleLogout}>
+        <Link to='/login' class="navlistitem">
+          Login
+        </Link>
+        <button onClick={handleLogout} >
           Logout
         </button>
       </nav>
+      
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
