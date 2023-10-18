@@ -1,8 +1,8 @@
 import './App.css';
-import { Demo } from './Demo';
-import DevicePage from './DeviceListPage';
-import Signup from './Signup';
-import Login from './Login';
+import { Demo } from './Routes/Demo';
+import DevicePage from './Routes/DeviceListPage';
+import Signup from './Routes/Signup';
+import Login from './Routes/Login';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './firebase.js';
 import { useState } from 'react';
@@ -18,6 +18,8 @@ import {
   useNavigate,
   Redirect
 } from 'react-router-dom';
+import { AuthContext } from './Context/AuthContext';
+import { Protected } from './Routes/Protected';
 
 /* Home Page */
 function Home() {
@@ -118,11 +120,11 @@ function AppLayout() {
       </nav>
       
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/devicelist' element={<DeviceList />} />
-        <Route path='/demo' element={<Demo />} />
-        <Route path='/signup' element={<Signup />} />
+        <Route path='/' element={<Protected><Home /></Protected>} />
+        <Route path='/about' element={<Protected><About /></Protected>} />
+        <Route path='/devicelist' element={<Protected><DeviceList /></Protected>} />
+        <Route path='/demo' element={<Protected><Demo/></Protected>} />
+        <Route path='/signup' element={<Protected><Signup /></Protected>} />
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>
@@ -136,9 +138,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Router>
-          <AppLayout />
-        </Router>
+        <AuthContext>
+          <Router>
+            <AppLayout />
+          </Router>
+         </AuthContext>
       </header>
     </div>
   );
