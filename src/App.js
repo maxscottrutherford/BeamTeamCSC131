@@ -3,6 +3,9 @@ import { Demo } from './Routes/Demo';
 import DevicePage from './Routes/DeviceListPage';
 import Signup from './Routes/Signup';
 import Login from './Routes/Login';
+import { NoMatch } from './Routes/NoMatch';
+import { Home } from './Routes/Home';
+import { About } from './Routes/About';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './firebase.js';
 import { useState } from 'react';
@@ -20,53 +23,6 @@ import {
 } from 'react-router-dom';
 import { AuthContext } from './Context/AuthContext';
 import { Protected } from './Routes/Protected';
-
-/* Home Page */
-function Home() {
-  return (
-    <div className="home-page">
-      <h2>Home/Landing Page</h2>
-      <p>Random text for now</p>
-    </div>
-  );
-}
-
-/* About Page */
-function About() {
-  return (
-    <div className="about-page">
-      <h2>About Page</h2>
-      <p>
-        CSUS 131 Fall 2023 project using Vendia to build a web app
-        to manage devices and tests for those devices
-      </p>
-      <br />
-      <h3>Created by N. Ramones, G. Arellano, M. Burhan, M. El Attar, A. Mahmood, M. Rutherford</h3>
-    </div>
-  );
-}
-
-function DeviceList() {
-  return (
-    <div className='device-list-page'>
-      <h2>Device List Page</h2>
-      <DevicePage />
-    </div>
-  );
-}
-
-/*
-  Device Adding page is Demo, will change the name later
-*/
-
-function NoMatch() {
-  return (
-    <div className='404-page'>
-      <h2>404: Page Not Found</h2>
-      <p>The web page you have tried to reach is not available.</p>
-    </div>
-  )
-}
 
 /* Main page for routing to different pages */
 function AppLayout() {
@@ -114,15 +70,15 @@ function AppLayout() {
         <Link to='/login' class="navlistitem">
           Login
         </Link>
-        <button onClick={handleLogout} id="logout-button">
+        <p onClick={handleLogout} class="navlistitem" id="logout-button">
           Logout
-        </button>
+        </p>
       </nav>
       
       <Routes>
         <Route path='/' element={<Protected><Home /></Protected>} />
         <Route path='/about' element={<Protected><About /></Protected>} />
-        <Route path='/devicelist' element={<Protected><DeviceList /></Protected>} />
+        <Route path='/devicelist' element={<Protected><DevicePage /></Protected>} />
         <Route path='/demo' element={<Protected><Demo/></Protected>} />
         <Route path='/signup' element={<Protected><Signup /></Protected>} />
         <Route path='/login' element={<Login />} />

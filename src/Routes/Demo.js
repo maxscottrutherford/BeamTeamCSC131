@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { vendiaClient } from "../vendiaClient";
+import { Navigate } from "react-router-dom";
 
 const {client} = vendiaClient();
 

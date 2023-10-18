@@ -90,31 +90,29 @@
 
 .navbar
 {
-  font-size: 30px;
+  font-size: 3.25vw;
+  display:flex;
   height: 60px;
   background-color: #2f184b; 
   position: fixed; 
   top: 0; 
   left: 0;
   width: 100%; 
-  padding: 10px; 
+  padding: 15px; 
   z-index: 100; 
-  margin-top: 20px;
+  margin-top: 0px;
   text-align: center;
+  align-items: center;
 }
 
-#logout-button {
-  font-size: 24px;
-  border: none;
-  border-radius: 6px;
-  padding: 5px;
-  margin: 12px;
-  background-color: #f4effa;
-  color: #532b88;
+#logout-button
+{
+  text-decoration: underline;
 }
 
-#logout-button:hover {
+#logout-button:hover
+{
   cursor: pointer;
-  color: #f4effa;
-  background-color: #532b88;
 }
+
+
