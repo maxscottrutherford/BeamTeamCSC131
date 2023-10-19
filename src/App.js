@@ -24,7 +24,6 @@ import {
 import { AuthContext } from './Context/AuthContext';
 import { Protected } from './Routes/Protected';
 
-/* Main page for routing to different pages */
 function AppLayout() {
   const navigate = useNavigate();
   //function to handle logout
@@ -80,7 +79,7 @@ function AppLayout() {
         <Route path='/about' element={<Protected><About /></Protected>} />
         <Route path='/devicelist' element={<Protected><DevicePage /></Protected>} />
         <Route path='/demo' element={<Protected><Demo/></Protected>} />
-        <Route path='/signup' element={<Protected><Signup /></Protected>} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>

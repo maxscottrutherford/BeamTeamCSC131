@@ -30,14 +30,12 @@ const Login = () => {
             <main >        
                 <section>
                     <div>                                            
-                        <h1>Vendia App</h1>                       
+                        <h1>Vendia App: Login</h1>                       
                                                        
                         <form>                                              
-                            <div>
-                                <label htmlFor="email-address">
-                                    Email address
-                                </label>
+                            <div className="login-form">
                                 <input
+                                    className="login-inputs"
                                     id="email-address"
                                     name="email"
                                     type="email"                                    
@@ -48,10 +46,8 @@ const Login = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="password">
-                                    Password
-                                </label>
                                 <input
+                                    className="login-inputs"
                                     id="password"
                                     name="password"
                                     type="password"                                    
@@ -62,7 +58,8 @@ const Login = () => {
                             </div>
                                                 
                             <div>
-                                <button                                    
+                                <button
+                                    className="login-button"                                    
                                     onClick={onLogin}                                        
                                 >      
                                     Login                                                                  
