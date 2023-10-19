@@ -35,13 +35,12 @@ const Signup = () => {
         <section>
             <div>
                 <div>                  
-                    <h1> Vendia App </h1>                                                                            
+                    <h1> Sign Up: Vendia App </h1>                                                                            
                     <form>                                                                                            
                         <div>
-                            <label htmlFor="email-address">
-                                Email address
-                            </label>
+                            
                             <input
+                                className="login-inputs"
                                 type="email"
                                 label="Email address"
                                 value={email}
@@ -52,10 +51,8 @@ const Signup = () => {
                         </div>
 
                         <div>
-                            <label htmlFor="password">
-                                Password
-                            </label>
                             <input
+                                className='login-inputs'
                                 type="password"
                                 label="Create password"
                                 value={password}
@@ -66,6 +63,7 @@ const Signup = () => {
                         </div>                                             
                         
                         <button
+                            className="login-button"
                             type="submit" 
                             onClick={onSubmit}                        
                         >  
