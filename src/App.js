@@ -23,6 +23,9 @@ import {
 } from 'react-router-dom';
 import { AuthContext } from './Context/AuthContext';
 import { Protected } from './Routes/Protected';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 function AppLayout() {
   const navigate = useNavigate();
@@ -49,11 +52,36 @@ function AppLayout() {
         console.log("user is logged out")
       }
     });
-  }, [])
+  }, []);
   
   return (
-    <>
-      <nav class="navbar">
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+        <Link to="/" className="navbar-brand">Home</Link>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse mx-auto" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link to="/about" className="nav-link">About</Link>
+            </li>
+            <li className="nav-item">
+              <Link to='/devicelist' className="nav-link">Device List</Link>
+            </li>
+            <li className="nav-item">
+              <Link to='/demo' className="nav-link">Add Device</Link>
+            </li>
+          </ul>
+        </div>
+        <button onClick={handleLogout} className="btn btn-primary">
+          Logout
+        </button>
+      </nav>
+    
+    
+      
+   {/* <nav class="navbar">
         <Link to="/"  class="navlistitem">
           Home
         </Link>
@@ -72,7 +100,7 @@ function AppLayout() {
         <p onClick={handleLogout} class="navlistitem" id="logout-button">
           Logout
         </p>
-      </nav>
+    </nav>  */}
       
       <Routes>
         <Route path='/' element={<Protected><Home /></Protected>} />
@@ -83,7 +111,7 @@ function AppLayout() {
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
