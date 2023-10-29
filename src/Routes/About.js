@@ -1,6 +1,6 @@
 export const About = () => {
     return(
-        <div className="about-page">
+        <div className="about-page text-center">
             <h2>About Page</h2>
             <p>
             CSUS 131 Fall 2023 project using Vendia to build a web app

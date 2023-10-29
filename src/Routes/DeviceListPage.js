@@ -34,40 +34,49 @@ function App() {
     };
 
     return (
-        <div>
-            <h1 style={{ textAlign: 'center' }}>Table Example</h1>
-            <input class="inputs"
-                type="text"
-                placeholder="Search by Name"
-                value={searchTerm}
-                onChange={handleSearch}
-                style={{ margin: '10px' }}
-            />
-            <table>
-                <thead>
-                    <tr>
-                        <th>Section ID</th>
-                        <th>Org Assignment</th>
-                        <th>Name</th>
-                        <th>Method</th>
-                        <th>Notes</th>
-                        <th>Completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredData.map((item) => (
-                        <tr key={item.sectionId}>
-                            <td>{item.sectionId}</td>
-                            <td>{item.orgAssignment}</td>
-                            <td>{item.name}</td>
-                            <td>{item.method}</td>
-                            <td>{item.notes}</td>
-                            <td>{item.completed ? 'Yes' : 'No'}</td>
+        <div className="container mt-5">
+            <div className="row">
+                <div className="col-12 mb-3">
+                    <h1 className="text-center">Device Table</h1>
+                </div>
+            </div>
+            <div className="row justify-content-center">
+                <div className="col-12 col-md-8">
+                    <input
+                        className="form-control mb-3"
+                        type="text"
+                        placeholder="Search by Name"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    />
+                <table className="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style={{ border: '1px solid black' }}>Section ID</th>
+                            <th style={{ border: '1px solid black' }}>Org Assignment</th>
+                            <th style={{ border: '1px solid black' }}>Name</th>
+                            <th style={{ border: '1px solid black' }}>Method</th>
+                            <th style={{ border: '1px solid black' }}>Notes</th>
+                            <th style={{ border: '1px solid black' }}>Completed</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredData.map((item) => (
+                            <tr key={item.sectionId}>
+                                <td style={{ border: '1px solid black' }}>{item.sectionId}</td>
+                                <td style={{ border: '1px solid black' }}>{item.orgAssignment}</td>
+                                <td style={{ border: '1px solid black' }}>{item.name}</td>
+                                <td style={{ border: '1px solid black' }}>{item.method}</td>
+                                <td style={{ border: '1px solid black' }}>{item.notes}</td>
+                                <td style={{ border: '1px solid black' }}>{item.completed ? 'Yes' : 'No'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+        
     );
 }
 
