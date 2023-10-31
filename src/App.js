@@ -24,6 +24,7 @@ import {
 import { AuthContext } from './Context/AuthContext';
 import { Protected } from './Routes/Protected';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './Navbar';
 
 
 
@@ -56,7 +57,7 @@ function AppLayout() {
   
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+      {/* <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
         <Link to="/" className="navbar-brand">Home</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -77,7 +78,7 @@ function AppLayout() {
         <button onClick={handleLogout} className="btn btn-primary">
           Logout
         </button>
-      </nav>
+      </nav> */}
     
     
       
@@ -123,6 +124,7 @@ function App() {
       <header className="App-header">
         <AuthContext>
           <Router>
+            <Navbar />
             <AppLayout />
           </Router>
          </AuthContext>
