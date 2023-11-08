@@ -4,7 +4,7 @@ import DevicePage from './Routes/DeviceListPage';
 import Signup from './Routes/Signup';
 import Login from './Routes/Login';
 import { NoMatch } from './Routes/NoMatch';
-import { Home } from './Routes/Home';
+import { default as Home  } from './Routes/Home';
 import { About } from './Routes/About';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './firebase.js';
