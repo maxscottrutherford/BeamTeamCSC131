@@ -6,6 +6,9 @@
   "x-vendia-acls": {
     "Test-acls": {
       "type": "Test"
+    },
+    "Device-acls": {
+      "type": "Device"
     }
   },
   "properties": {
@@ -52,6 +55,31 @@
         "x-vendia-unique": []
       },
       "title": "Test"
+    },
+    "Device": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "DeviceName": {
+            "title": "Device Name",
+            "description": "Name of device",
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          },
+          "Status": {
+            "title": "Status",
+            "description": "Percentage of completion",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "required": [],
+        "x-vendia-unique": []
+      },
+      "title": "Device"
     }
   }
 }
