@@ -29,14 +29,47 @@ const Home = () => {
     }
   };
 
+  const handleRemove = async (deviceId) => {
+    try {
+      // Remove the device from Vendia entities
+      await client.entities.device.remove(deviceId);
 
+      // Update the state by removing the deleted device
+      setDevices((prevDevices) => prevDevices.filter((device) => device._id !== deviceId));
+    } catch (error) {
+      console.error('Error removing device from Vendia:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchDevicesFromTable = async () => {
       try {
-        const response = await client.entities.device.list();
-        setDevices(response.items);
-        console.log(response.items)
+        // Fetch the list of devices
+        const devicesResponse = await client.entities.device.list();
+        const devicesList = devicesResponse.items;
+
+        // Calculate completion percentage for each device
+        const devicesWithCompletion = await Promise.all(
+          devicesList.map(async (device) => {
+            // Fetch tests associated with the device
+            const testsResponse = await client.entities.test.list();
+            const deviceTests = testsResponse.items.filter((test) => test.Device === device.DeviceName);
+
+            // Calculate completion percentage based on completed tests
+            const completedTests = deviceTests.filter((test) => test.Completed);
+            const completionPercentage = deviceTests.length > 0
+              ? (completedTests.length / deviceTests.length) * 100
+              : 100; // Set to 100% if no tests are assigned to the device
+
+            return {
+              ...device,
+              Status: completionPercentage,
+            };
+          })
+        );
+
+        // Update the state with the new list of devices including completion percentage
+        setDevices(devicesWithCompletion);
       } catch (error) {
         console.error('Error fetching data from table:', error);
       }
@@ -44,19 +77,6 @@ const Home = () => {
 
     fetchDevicesFromTable();
   }, [client]);
-
-  const handleRemove = async (deviceId) => {
-    try {
-      // Remove the device from Vendia entities
-      await client.entities.device.remove(deviceId);
-
-      // Update the state by removing the deleted device
-      setDevices(prevDevices => prevDevices.filter((device) => device._id !== deviceId));
-    } catch (error) {
-      console.error('Error removing device from Vendia:', error);
-    }
-  };
-
 
   return (
     <div className="home-page">
@@ -84,12 +104,18 @@ const Home = () => {
               <div className="card-body">
                 <h5 className="card-title">{device.DeviceName}</h5>
                 <p className="card-text">Completion Percentage: {device.Status}%</p>
-                <button onClick={() => handleRemove(device._id)} className="btn btn-danger">
+                <button
+                  onClick={() => handleRemove(device._id)}
+                  className="btn btn-danger"
+                >
                   Remove
                 </button>
                 <br />
                 <button className="btn btn-primary">
-                  <Link to={`/devicelist/${device._id}`} className="text-white">
+                  <Link
+                    to={`/devicelist/${device._id}`}
+                    className="text-white"
+                  >
                     View Tests
                   </Link>
                 </button>

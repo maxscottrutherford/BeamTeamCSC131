@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { vendiaClient } from '../vendiaClient';
-import { Table, Button, Modal } from 'react-bootstrap';
+import { Table, Button, Modal, Form } from 'react-bootstrap';
 
 const TableDesign = () => {
     const { client } = vendiaClient();
@@ -10,6 +10,8 @@ const TableDesign = () => {
     const [showModal, setShowModal] = useState(false);
     const [editRowIndex, setEditRowIndex] = useState(null);
     const [editedData, setEditedData] = useState({});
+    const [devices, setDevices] = useState([]);
+    const [selectedDevices, setSelectedDevices] = useState([]);
 
     useEffect(() => {
         const fetchDataFromTable = async () => {
@@ -30,11 +32,25 @@ const TableDesign = () => {
         setFilteredData(testData);
     }, [testData]);
 
+    useEffect(() => {
+        // Fetch devices from the vendia API
+        const fetchDevices = async () => {
+            try {
+                const response = await client.entities.device.list();
+                setDevices(response.items);
+            } catch (error) {
+                console.error('Error fetching devices from Vendia:', error);
+            }
+        };
+
+        fetchDevices();
+    }, []);
+
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
         setSearchTerm(searchText);
 
-        // Filter data based on search term
+        // Filter data based on search term and selected devices
         const filteredResults = testData.filter((item) =>
             Object.values(item).some(
                 (value) =>
@@ -44,7 +60,14 @@ const TableDesign = () => {
             )
         );
 
-        setFilteredData(filteredResults);
+        // Apply device filter
+        if (selectedDevices.length > 0) {
+            setFilteredData(filteredResults.filter((item) =>
+                selectedDevices.includes(item.Device)
+            ));
+        } else {
+            setFilteredData(filteredResults);
+        }
     };
 
     const handleEdit = (index) => {
@@ -84,6 +107,40 @@ const TableDesign = () => {
         }
     };
 
+    const handleDeviceChange = (deviceName) => {
+        const updatedDevices = [...selectedDevices];
+        const index = updatedDevices.indexOf(deviceName);
+
+        if (index !== -1) {
+            // Device is already selected, remove it
+            updatedDevices.splice(index, 1);
+        } else {
+            // Device is not selected, add it
+            updatedDevices.push(deviceName);
+        }
+
+        setSelectedDevices(updatedDevices);
+
+        // Filter data based on search term and selected devices
+        const filteredResults = testData.filter((item) =>
+            Object.values(item).some(
+                (value) =>
+                    value &&
+                    typeof value === 'string' &&
+                    value.toLowerCase().includes(searchTerm)
+            )
+        );
+
+        // Apply device filter
+        if (updatedDevices.length > 0) {
+            setFilteredData(filteredResults.filter((item) =>
+                updatedDevices.includes(item.Device)
+            ));
+        } else {
+            setFilteredData(filteredResults);
+        }
+    };
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -93,13 +150,28 @@ const TableDesign = () => {
             </div>
             <div className="row justify-content-center">
                 <div className="col-12 col-md-8">
-                    <input
-                        className="form-control mb-3"
-                        type="text"
-                        placeholder="Search by Name"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
+                    <Form>
+                        <Form.Group controlId="searchTerm">
+                            <Form.Control
+                                type="text"
+                                placeholder="Search by Name"
+                                value={searchTerm}
+                                onChange={handleSearch}
+                            />
+                        </Form.Group>
+                    </Form>
+                    <div className="mb-3">
+                        {devices.map((device, index) => (
+                            <Form.Check
+                                key={index}
+                                type="checkbox"
+                                label={device.DeviceName}
+                                checked={selectedDevices.includes(device.DeviceName)}
+                                onChange={() => handleDeviceChange(device.DeviceName)}
+                                inline
+                            />
+                        ))}
+                    </div>
                     <Table responsive striped bordered hover>
                         <thead>
                             <tr>
@@ -110,7 +182,7 @@ const TableDesign = () => {
                                 <th>Notes</th>
                                 <th>Completed</th>
                                 <th>Updated By</th>
-                                <th>Device</th> {/* Add this header for the Device attribute */}
+                                <th>Device</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -125,7 +197,7 @@ const TableDesign = () => {
                                     <td>{row.Notes}</td>
                                     <td>{row.Completed ? 'Completed' : 'Not Completed'}</td>
                                     <td>{row.UpdatedBy}</td>
-                                    <td>{row.Device}</td> {/* Display the Device attribute here */}
+                                    <td>{row.Device}</td>
                                     <td>
                                         <Button variant="primary" onClick={() => handleEdit(index)}>
                                             Edit

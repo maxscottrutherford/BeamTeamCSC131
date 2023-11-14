@@ -36,15 +36,33 @@ export const Demo = () => {
 
 
     const addDevice = async () => {
-        const addDeviceResponse = await client.entities.test.add({
-            Device: device,
-            TestID: parseInt(testID), // Parse as an integer
-            OrgAssignment: orgAssignment,
-            TestName: testName,
-            TestMethod: testMethod,
-            Notes: notes
-        });
-        console.log(addDeviceResponse);
+        try {
+            const addDeviceResponse = await client.entities.test.add({
+                Device: device,
+                TestID: parseInt(testID), // Parse as an integer
+                OrgAssignment: orgAssignment,
+                TestName: testName,
+                TestMethod: testMethod,
+                Notes: notes
+            });
+
+            // Reset form fields after successful test addition
+            setDevice("");
+            setTestID("");
+            setOrgAssignment("");
+            setTestName("");
+            setTestMethod("");
+            setNotes("");
+
+            // Show success alert
+            alert("Test has been added successfully.");
+
+            // Fetch and update the list of tests
+            const listTestResponse = await client.entities.test.list();
+            setTestList(listTestResponse?.items);
+        } catch (error) {
+            console.error("Error adding test:", error);
+        }
     };
 
 
@@ -159,11 +177,6 @@ export const Demo = () => {
                         </div>
                     </form>
                 </div>
-            </div>
-            <div className="mt-4">
-                {testList?.map((item, index) => (
-                    <div key={index}>{item?.Device}</div>
-                ))}
             </div>
         </div>
     );
