@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import TestModal from './TestModal';
+import { Link } from 'react-router-dom';
 import { vendiaClient } from '../vendiaClient';
 import '../Home.css'; // Import the CSS file for additional styling
 
@@ -8,7 +7,6 @@ const Home = () => {
   const { client } = vendiaClient();
   const [devices, setDevices] = useState([]);
   const [deviceName, setDeviceName] = useState('');
-  const [selectedDevice, setSelectedDevice] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,23 +14,29 @@ const Home = () => {
     try {
       // Add a new device to Vendia entities
       const response = await client.entities.device.add({
-        name: deviceName,
-        completionPercentage: 0,
+        DeviceName: deviceName,
+        Status: 0, // Assuming completion percentage starts at 0
       });
 
-      // Update the state with the newly created device
-      setDevices([...devices, response]);
+      // Fetch the updated list of devices
+      const updatedDevices = await client.entities.device.list();
+
+      // Update the state with the new list of devices
+      setDevices(updatedDevices.items);
       setDeviceName('');
     } catch (error) {
       console.error('Error adding device to Vendia:', error);
     }
   };
 
+
+
   useEffect(() => {
     const fetchDevicesFromTable = async () => {
       try {
         const response = await client.entities.device.list();
         setDevices(response.items);
+        console.log(response.items)
       } catch (error) {
         console.error('Error fetching data from table:', error);
       }
@@ -47,19 +51,12 @@ const Home = () => {
       await client.entities.device.remove(deviceId);
 
       // Update the state by removing the deleted device
-      setDevices(devices.filter((device) => device._id !== deviceId));
+      setDevices(prevDevices => prevDevices.filter((device) => device._id !== deviceId));
     } catch (error) {
       console.error('Error removing device from Vendia:', error);
     }
   };
 
-  const handleViewTests = (deviceId) => {
-    setSelectedDevice(deviceId);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedDevice(null);
-  };
 
   return (
     <div className="home-page">
@@ -91,25 +88,16 @@ const Home = () => {
                   Remove
                 </button>
                 <br />
-                <Button
-                  variant="primary"
-                  onClick={() => handleViewTests(device._id)}
-                >
-                  View Tests
-                </Button>
+                <button className="btn btn-primary">
+                  <Link to={`/devicelist/${device._id}`} className="text-white">
+                    View Tests
+                  </Link>
+                </button>
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      {selectedDevice && (
-        <TestModal
-          deviceId={selectedDevice}
-          deviceName={devices.find((device) => device._id === selectedDevice)?.DeviceName}
-          onClose={handleCloseModal}
-        />
-      )}
     </div>
   );
 };

@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const { client } = vendiaClient();
 
 export const Demo = () => {
+    const [devices, setDevices] = useState([]);
+    const [organizations, setOrganizations] = useState([]);
     const [device, setDevice] = useState("");
     const [testID, setTestID] = useState("");
     const [orgAssignment, setOrgAssignment] = useState("");
@@ -14,19 +16,29 @@ export const Demo = () => {
     const [testList, setTestList] = useState([]);
 
     useEffect(() => {
-        const listTest = async () => {
-            const listTestResponse = await client.entities.test.list();
-            console.log(listTestResponse?.items);
-            setTestList(listTestResponse?.items);
+        const fetchData = async () => {
+            try {
+                // Fetch devices
+                const devicesResponse = await client.entities.device.list();
+                setDevices(devicesResponse?.items || []);
+
+                // Fetch organizations from Test entity
+                const testResponse = await client.entities.test.list();
+                const uniqueOrgs = Array.from(new Set(testResponse?.items.map(item => item.OrgAssignment)));
+                setOrganizations(uniqueOrgs || []);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
 
-        listTest();
+        fetchData();
     }, []);
+
 
     const addDevice = async () => {
         const addDeviceResponse = await client.entities.test.add({
             Device: device,
-            TestID: testID,
+            TestID: parseInt(testID), // Parse as an integer
             OrgAssignment: orgAssignment,
             TestName: testName,
             TestMethod: testMethod,
@@ -34,6 +46,7 @@ export const Demo = () => {
         });
         console.log(addDeviceResponse);
     };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -61,15 +74,20 @@ export const Demo = () => {
                 <div className="col-md-6">
                     <form onSubmit={handleSubmit}>
                         <div className="mb-2 d-flex justify-content-center">
-                            <input
-                                className="form-control"
-                                type="text"
+                            <select
+                                className="form-select"
                                 name="Device"
-                                placeholder="Device Name"
                                 value={device}
                                 onChange={(e) => setDevice(e.target.value)}
                                 style={inputStyle}
-                            />
+                            >
+                                <option value="">Select Device</option>
+                                {devices.map((device) => (
+                                    <option key={device.DeviceName} value={device.DeviceName}>
+                                        {device.DeviceName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mb-2 d-flex justify-content-center">
                             <input
@@ -83,15 +101,20 @@ export const Demo = () => {
                             />
                         </div>
                         <div className="mb-2 d-flex justify-content-center">
-                            <input
-                                className="form-control"
-                                type="text"
+                            <select
+                                className="form-select"
                                 name="orgAssignment"
-                                placeholder="Organization"
                                 value={orgAssignment}
                                 onChange={(e) => setOrgAssignment(e.target.value)}
                                 style={inputStyle}
-                            />
+                            >
+                                <option value="">Select Organization</option>
+                                {organizations.map((org) => (
+                                    <option key={org} value={org}>
+                                        {org}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mb-2 d-flex justify-content-center">
                             <input
