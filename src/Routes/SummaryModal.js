@@ -51,7 +51,7 @@ const SummaryModal = ({ deviceId, onHide }) => {
     return (
         <Modal show={true} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Summary</Modal.Title>
+                <Modal.Title>Summary: {deviceId}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div>
