@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { vendiaClient } from '../vendiaClient';
 import '../Home.css'; // Import the CSS file for additional styling
+import SummaryModal from './SummaryModal';
 
 const Home = () => {
   const { client } = vendiaClient();
   const [devices, setDevices] = useState([]);
   const [deviceName, setDeviceName] = useState('');
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,15 +21,25 @@ const Home = () => {
         Status: 0, // Assuming completion percentage starts at 0
       });
 
-      // Fetch the updated list of devices
-      const updatedDevices = await client.entities.device.list();
+      // Directly append the new device to the current state
+      setDevices((prevDevices) => [
+        ...prevDevices,
+        {
+          _id: response._id,
+          DeviceName: deviceName,
+          Status: 100,
+        },
+      ]);
 
-      // Update the state with the new list of devices
-      setDevices(updatedDevices.items);
       setDeviceName('');
     } catch (error) {
       console.error('Error adding device to Vendia:', error);
     }
+  };
+
+  const handleSummary = (deviceId) => {
+    setSelectedDeviceId(deviceId);
+    setShowSummaryModal(true);
   };
 
   const handleRemove = async (deviceId) => {
@@ -45,21 +58,21 @@ const Home = () => {
     const fetchDevicesFromTable = async () => {
       try {
         // Fetch the list of devices
-        const devicesResponse = await client.entities.device.list();
+        const devicesResponse = await client.entities.device.list({ readMode: "NODE_LEDGERED" });
         const devicesList = devicesResponse.items;
 
         // Calculate completion percentage for each device
         const devicesWithCompletion = await Promise.all(
           devicesList.map(async (device) => {
             // Fetch tests associated with the device
-            const testsResponse = await client.entities.test.list();
+            const testsResponse = await client.entities.test.list({ readMode: "NODE_LEDGERED" });
             const deviceTests = testsResponse.items.filter((test) => test.Device === device.DeviceName);
 
             // Calculate completion percentage based on completed tests
             const completedTests = deviceTests.filter((test) => test.Completed);
             const completionPercentage = deviceTests.length > 0
               ? (completedTests.length / deviceTests.length) * 100
-              : 100; // Set to 100% if no tests are assigned to the device
+              : 100; // Set to 0% if no tests are assigned to the device
 
             return {
               ...device,
@@ -74,6 +87,7 @@ const Home = () => {
         console.error('Error fetching data from table:', error);
       }
     };
+
 
     fetchDevicesFromTable();
   }, [client]);
@@ -111,19 +125,23 @@ const Home = () => {
                   Remove
                 </button>
                 <br />
-                <button className="btn btn-primary">
-                  <Link
-                    to={`/devicelist/${device._id}`}
-                    className="text-white"
-                  >
-                    View Tests
-                  </Link>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleSummary(device.DeviceName)}
+                >
+                  Summary
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
+      {showSummaryModal && (
+        <SummaryModal
+          deviceId={selectedDeviceId}
+          onHide={() => setShowSummaryModal(false)}
+        />
+      )}
     </div>
   );
 };

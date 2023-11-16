@@ -11,7 +11,7 @@ const TestModal = ({ deviceId, deviceName, onClose }) => {
     useEffect(() => {
         const fetchTestsForDevice = async () => {
             try {
-                const response = await client.entities.test.list();
+                const response = await client.entities.test.list({ readMode: "NODE_LEDGERED" });
                 const testsForDevice = response.items.filter((test) => test.Device === deviceName);
                 setTests(testsForDevice);
             } catch (error) {

@@ -19,11 +19,11 @@ export const Demo = () => {
         const fetchData = async () => {
             try {
                 // Fetch devices
-                const devicesResponse = await client.entities.device.list();
+                const devicesResponse = await client.entities.device.list({ readMode: "NODE_LEDGERED" });
                 setDevices(devicesResponse?.items || []);
 
                 // Fetch organizations from Test entity
-                const testResponse = await client.entities.test.list();
+                const testResponse = await client.entities.test.list({ readMode: "NODE_LEDGERED" });
                 const uniqueOrgs = Array.from(new Set(testResponse?.items.map(item => item.OrgAssignment)));
                 setOrganizations(uniqueOrgs || []);
             } catch (error) {
@@ -58,7 +58,7 @@ export const Demo = () => {
             alert("Test has been added successfully.");
 
             // Fetch and update the list of tests
-            const listTestResponse = await client.entities.test.list();
+            const listTestResponse = await client.entities.test.list({ readMode: "NODE_LEDGERED" });
             setTestList(listTestResponse?.items);
         } catch (error) {
             console.error("Error adding test:", error);

@@ -16,7 +16,7 @@ const TableDesign = () => {
     useEffect(() => {
         const fetchDataFromTable = async () => {
             try {
-                const response = await client.entities.test.list();
+                const response = await client.entities.test.list({ readMode: "NODE_LEDGERED" });
                 setTestData(response.items);
                 setFilteredData(response.items); // Initialize filteredData with all data
             } catch (error) {
@@ -36,7 +36,7 @@ const TableDesign = () => {
         // Fetch devices from the vendia API
         const fetchDevices = async () => {
             try {
-                const response = await client.entities.device.list();
+                const response = await client.entities.device.list({ readMode: "NODE_LEDGERED" });
                 setDevices(response.items);
             } catch (error) {
                 console.error('Error fetching devices from Vendia:', error);
@@ -149,7 +149,7 @@ const TableDesign = () => {
                 </div>
             </div>
             <div className="row justify-content-center">
-                <div className="col-12 col-md-8">
+                <div className="col-12 col-md-8" style={{ width: '100%', margin: '0 auto' }}>
                     <Form>
                         <Form.Group controlId="searchTerm">
                             <Form.Control
@@ -183,8 +183,7 @@ const TableDesign = () => {
                                 <th>Completed</th>
                                 <th>Updated By</th>
                                 <th>Device</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -200,7 +199,7 @@ const TableDesign = () => {
                                     <td>{row.Device}</td>
                                     <td>
                                         <Button variant="primary" onClick={() => handleEdit(index)}>
-                                            Edit
+                                            Update
                                         </Button>
                                     </td>
                                     <td>
