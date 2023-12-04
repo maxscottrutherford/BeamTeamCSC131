@@ -1,44 +1,57 @@
-import { createContext, useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// NoPermission.jsx
+import React, { useState } from 'react';
 
-export const Context = createContext();
+const NoPermission = () => {
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
 
-export function AuthContext({ children }) {
-    const auth = getAuth();
-    const [user, setUser] = useState();
-    const [loading, setLoading] = useState(true);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Log to console
+        console.log(`Message sent to admin:\nEmail: ${email}\nMessage: ${message}`);
 
-    useEffect(() => {
-        let unsubscribe;
-        unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setLoading(false);
-            if (currentUser) setUser(currentUser);
-            else { setUser(null); }
-        });
-        return () => {
-            if (unsubscribe) unsubscribe();
-        }
-    }, []);
-
-    const isAdmin = () => {
-        // Check if the word 'admin' is in the user's username
-        return user && user.displayName && user.displayName.toLowerCase().includes('admin');
+        // Display alert with email address and clear textboxes
+        alert(`Your message was sent to ${email}.`);
+        setEmail('');
+        setMessage('');
     };
 
-    const getOrganization = () => {
-        // Get the organization from the user's login email
-        return user && user.email ? user.email.split('@')[1] : null;
-    };
-
-    const values = {
-        user: user,
-        isAdmin: isAdmin,
-        getOrganization: getOrganization,
-    };
 
     return (
-        <Context.Provider value={values}>
-            {!loading && children}
-        </Context.Provider>
+        <div className="container my-5 text-center">
+            <h2 className="mb-4">Permission Denied</h2>
+            <p>You are not an admin and do not have permission to add new tests.</p>
+            <p>Please send a message to the admin to request permission:</p>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-2">
+                    <input
+                        className="form-control"
+                        type="email"
+                        name="email"
+                        placeholder="Admin's Email Address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={{ maxWidth: '300px', margin: 'auto' }}
+                    />
+                </div>
+                <div className="mb-2">
+                    <textarea
+                        className="form-control"
+                        name="message"
+                        placeholder="Your Message to Admin"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        style={{ width: '80%', margin: 'auto', minHeight: '150px' }}
+                    />
+                </div>
+                <div>
+                    <button className="btn btn-primary" type="submit">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
     );
-}
+};
+
+export default NoPermission;

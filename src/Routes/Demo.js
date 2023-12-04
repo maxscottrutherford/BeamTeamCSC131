@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { vendiaClient } from "../vendiaClient";
+import React, { useEffect, useState, useContext } from 'react';
+import { vendiaClient } from '../vendiaClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Context } from '../Context/AuthContext';
+import NoPermission from './NoPermission';
 
 const { client } = vendiaClient();
 
 export const Demo = () => {
+    const { user } = useContext(Context);
+
+
+
     const [devices, setDevices] = useState([]);
     const [organizations, setOrganizations] = useState([]);
     const [device, setDevice] = useState("");
@@ -14,6 +20,7 @@ export const Demo = () => {
     const [testMethod, setTestMethod] = useState("");
     const [notes, setNotes] = useState("");
     const [testList, setTestList] = useState([]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -84,6 +91,11 @@ export const Demo = () => {
         margin: '10px 0',
         fontSize: '14px'
     };
+
+    if (!user || !user.email.includes('admin')) {
+        // If user is not an admin or user is not logged in
+        return <NoPermission />;
+    }
 
     return (
         <div className="container my-5">

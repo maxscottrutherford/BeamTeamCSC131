@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { vendiaClient } from '../vendiaClient';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
+import { Context } from '../Context/AuthContext';
 
 const TableDesign = () => {
     const { client } = vendiaClient();
+    const { user } = useContext(Context);
     const [testData, setTestData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -141,6 +143,10 @@ const TableDesign = () => {
         }
     };
 
+    const isAdmin = user && user.email.includes('admin');
+    const userOrg = user ? user.email.split('@')[1] : '';
+    console.log(userOrg);
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -183,7 +189,7 @@ const TableDesign = () => {
                                 <th>Completed</th>
                                 <th>Updated By</th>
                                 <th>Device</th>
-
+                                {isAdmin && <th>Actions</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -197,16 +203,30 @@ const TableDesign = () => {
                                     <td>{row.Completed ? 'Completed' : 'Not Completed'}</td>
                                     <td>{row.UpdatedBy}</td>
                                     <td>{row.Device}</td>
-                                    <td>
-                                        <Button variant="primary" onClick={() => handleEdit(index)}>
-                                            Update
-                                        </Button>
-                                    </td>
-                                    <td>
-                                        <Button variant="danger" onClick={() => handleDelete(index)}>
-                                            Delete
-                                        </Button>
-                                    </td>
+                                    {isAdmin && (
+                                        <React.Fragment>
+                                            <td>
+                                                <Button variant="primary" onClick={() => handleEdit(index)}>
+                                                    Update
+                                                </Button>
+                                            </td>
+                                            <td>
+                                                <Button variant="danger" onClick={() => handleDelete(index)}>
+                                                    Delete
+                                                </Button>
+                                            </td>
+                                        </React.Fragment>
+                                    )}
+
+                                    {!isAdmin && userOrg.toLowerCase().includes(row.OrgAssignment.toLowerCase()) && (
+                                        <React.Fragment>
+                                            <td>
+                                                <Button variant="primary" onClick={() => handleEdit(index)}>
+                                                    Update
+                                                </Button>
+                                            </td>
+                                        </React.Fragment>
+                                    )}
                                 </tr>
                             ))}
                         </tbody>

@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom';
 import { vendiaClient } from '../vendiaClient';
 import '../Home.css'; // Import the CSS file for additional styling
 import SummaryModal from './SummaryModal';
+import { Context } from "../Context/AuthContext";
+import { useContext } from "react";
+
+
 
 const Home = () => {
   const { client } = vendiaClient();
+  const { user } = useContext(Context); // Import Context from AuthContext
   const [devices, setDevices] = useState([]);
   const [deviceName, setDeviceName] = useState('');
   const [showSummaryModal, setShowSummaryModal] = useState(false);
@@ -88,29 +93,30 @@ const Home = () => {
       }
     };
 
-
     fetchDevicesFromTable();
   }, [client]);
 
   return (
     <div className="home-page">
       <h2>Current Devices</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Device Name"
-            aria-label="Device Name"
-            aria-describedby="button-addon2"
-            value={deviceName}
-            onChange={(e) => setDeviceName(e.target.value)}
-          />
-          <button className="btn btn-outline-secondary" type="submit" id="button-addon2">
-            Add Device
-          </button>
-        </div>
-      </form>
+      {user && user.email.includes('admin') && (
+        <form onSubmit={handleSubmit}>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Device Name"
+              aria-label="Device Name"
+              aria-describedby="button-addon2"
+              value={deviceName}
+              onChange={(e) => setDeviceName(e.target.value)}
+            />
+            <button className="btn btn-outline-secondary" type="submit" id="button-addon2">
+              Add Device
+            </button>
+          </div>
+        </form>
+      )}
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {devices.map((device) => (
           <div key={device._id} className="col">
@@ -118,13 +124,17 @@ const Home = () => {
               <div className="card-body">
                 <h5 className="card-title">{device.DeviceName}</h5>
                 <p className="card-text">Completion Percentage: {device.Status}%</p>
-                <button
-                  onClick={() => handleRemove(device._id)}
-                  className="btn btn-danger"
-                >
-                  Remove
-                </button>
-                <br />
+                {user && user.email.includes('admin') && (
+                  <>
+                    <button
+                      onClick={() => handleRemove(device._id)}
+                      className="btn btn-danger"
+                    >
+                      Remove
+                    </button>
+                    <br />
+                  </>
+                )}
                 <button
                   className="btn btn-primary"
                   onClick={() => handleSummary(device.DeviceName)}
