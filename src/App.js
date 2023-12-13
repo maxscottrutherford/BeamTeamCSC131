@@ -4,7 +4,7 @@ import DevicePage from './Routes/DeviceListPage';
 import Signup from './Routes/Signup';
 import Login from './Routes/Login';
 import { NoMatch } from './Routes/NoMatch';
-import { default as Home  } from './Routes/Home';
+import { default as Home } from './Routes/Home';
 import { About } from './Routes/About';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './firebase.js';
@@ -32,7 +32,7 @@ function AppLayout() {
   const navigate = useNavigate();
   //function to handle logout
   const handleLogout = () => {
-    signOut(auth).then(() =>{
+    signOut(auth).then(() => {
       //sign-out successful
       navigate('/login');
       console.log("Signed out successfully.")
@@ -42,11 +42,11 @@ function AppLayout() {
   }
 
   //getting user info
-  useEffect(() =>{
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         //user is signed in
-        const uid=user.uid;
+        const uid = user.uid;
         console.log("uid", uid)
       } else {
         //User is signed out
@@ -54,7 +54,7 @@ function AppLayout() {
       }
     });
   }, []);
-  
+
   return (
     <div>
       {/* <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
@@ -79,10 +79,10 @@ function AppLayout() {
           Logout
         </button>
       </nav> */}
-    
-    
-      
-   {/* <nav class="navbar">
+
+
+
+      {/* <nav class="navbar">
         <Link to="/"  class="navlistitem">
           Home
         </Link>
@@ -102,12 +102,12 @@ function AppLayout() {
           Logout
         </p>
     </nav>  */}
-      
+
       <Routes>
         <Route path='/' element={<Protected><Home /></Protected>} />
         <Route path='/about' element={<Protected><About /></Protected>} />
         <Route path='/devicelist' element={<Protected><DevicePage /></Protected>} />
-        <Route path='/demo' element={<Protected><Demo/></Protected>} />
+        <Route path='/demo' element={<Protected><Demo /></Protected>} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<NoMatch />} />
@@ -127,7 +127,7 @@ function App() {
             <Navbar />
             <AppLayout />
           </Router>
-         </AuthContext>
+        </AuthContext>
       </header>
     </div>
   );

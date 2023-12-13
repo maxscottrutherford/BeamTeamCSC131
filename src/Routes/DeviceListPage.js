@@ -80,6 +80,10 @@ const TableDesign = () => {
 
     const handleSave = async () => {
         const { _owner, _acl, ...updatedData } = editedData;
+
+        // Update the UpdatedBy field with user's email before the '@' sign
+        updatedData.UpdatedBy = user.email.split('@')[0];
+
         const updatedTestData = [...testData];
         updatedTestData[editRowIndex] = updatedData;
         setTestData(updatedTestData);
@@ -96,6 +100,7 @@ const TableDesign = () => {
             console.error('Error updating data in Vendia:', error);
         }
     };
+
 
     const handleDelete = async (index) => {
         const updatedTestData = [...testData];

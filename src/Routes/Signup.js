@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -30,7 +30,7 @@ const Signup = () => {
         <div className="container h-100">
             <div className="row justify-content-center align-items-center h-100">
                 <div className="col-md-4">
-                    <h1 className="text-center mb-4">Sign Up: Vendia App</h1>
+                    <h1 className="text-center mb-4">Sign Up</h1>
                     <form onSubmit={onSubmit}>
                         <div className="mb-3">
                             <input
